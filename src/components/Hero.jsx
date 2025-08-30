@@ -34,33 +34,43 @@ export default function Hero() {
         `}
       </style>
       <section id="home" className="pm-hero pm-section">
-        <div className="pm-container pm-hero-inner">
+        <div className="pm-container pm-hero-inner" style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(24px, 5vw, 48px)',
+          padding: 'clamp(30px, 6vw, 60px) 0',
+          alignItems: 'center',
+          '@media (max-width: 1024px)': {
+            gridTemplateColumns: '1fr',
+            gap: 'clamp(20px, 4vw, 32px)'
+          }
+        }}>
           <div className="pm-hero-copy pm-hero-fade-in">
             <p className="pm-eyebrow" style={{
-              fontSize: 'clamp(28px, 5vw, 44px)',
+              fontSize: 'clamp(24px, 5vw, 44px)',
               fontWeight: '700',
               color: '#0066CC',
-              marginBottom: '8px',
+              marginBottom: 'clamp(6px, 1.5vw, 8px)',
               fontFamily: "'Dancing Script', cursive",
               textTransform: 'none',
               letterSpacing: '0.5px',
               textAlign: 'center'
             }}>{s.eyebrow}</p>
             <h1 className="pm-hero-title" style={{
-              fontSize: 'clamp(32px, 6vw, 48px)',
+              fontSize: 'clamp(28px, 6vw, 48px)',
               fontWeight: 'bold',
               color: '#000',
-              marginBottom: '16px',
+              marginBottom: 'clamp(12px, 3vw, 16px)',
               lineHeight: '1.2',
               textTransform: 'uppercase',
               letterSpacing: 'clamp(1px, 0.3vw, 2px)',
               textAlign: 'center'
             }}>{s.title}</h1>
             <p className="pm-hero-sub" style={{
-              fontSize: 'clamp(18px, 3.5vw, 28px)',
+              fontSize: 'clamp(16px, 3.5vw, 28px)',
               fontWeight: '600',
               color: '#000',
-              marginBottom: 'clamp(20px, 4vw, 32px)',
+              marginBottom: 'clamp(16px, 4vw, 32px)',
               textTransform: 'uppercase',
               letterSpacing: 'clamp(0.5px, 0.2vw, 1px)',
               textAlign: 'center'
@@ -70,7 +80,11 @@ export default function Hero() {
               gap: 'clamp(12px, 2vw, 16px)',
               alignItems: 'center',
               justifyContent: 'center',
-              flexWrap: 'wrap'
+              flexWrap: 'wrap',
+              '@media (max-width: 768px)': {
+                flexDirection: 'column',
+                alignItems: 'center'
+              }
             }}>
               <button className="pm-btn" style={{
                 backgroundColor: '#0066CC',
@@ -83,7 +97,11 @@ export default function Hero() {
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
                 cursor: 'pointer',
-                transition: 'background-color 0.3s ease'
+                transition: 'background-color 0.3s ease',
+                '@media (max-width: 768px)': {
+                  width: '100%',
+                  maxWidth: '200px'
+                }
               }}>Shop Now</button>
               <button className="pm-btn pm-btn-outline" style={{
                 backgroundColor: 'transparent',
@@ -96,15 +114,34 @@ export default function Hero() {
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                '@media (max-width: 768px)': {
+                  width: '100%',
+                  maxWidth: '200px'
+                }
               }}>Read More</button>
             </div>
           </div>
           <div className="pm-hero-visual pm-hero-fade-in">
-            <img className="pm-hero-img" src={s.img} alt={s.title} />
+            <img className="pm-hero-img" src={s.img} alt={s.title} style={{
+              width: '100%',
+              height: 'clamp(250px, 50vh, 400px)',
+              objectFit: 'cover',
+              borderRadius: '0',
+              border: 'none',
+              display: 'block',
+              '@media (max-width: 1024px)': {
+                height: 'clamp(200px, 40vh, 300px)'
+              }
+            }} />
           </div>
         </div>
-        <div className="pm-container pm-hero-dots">
+        <div className="pm-container pm-hero-dots" style={{
+          display: 'flex',
+          gap: 'clamp(6px, 1.5vw, 8px)',
+          justifyContent: 'center',
+          paddingBottom: 'clamp(6px, 1.5vw, 8px)'
+        }}>
           {slides.map((_, i) => (
             <button 
               key={i} 
@@ -112,12 +149,12 @@ export default function Hero() {
               onClick={() => setIndex(i)} 
               aria-label={`Go to slide ${i+1}`}
               style={{
-                width: '12px',
-                height: '12px',
+                width: 'clamp(10px, 2vw, 12px)',
+                height: 'clamp(10px, 2vw, 12px)',
                 borderRadius: '50%',
                 border: 'none',
                 backgroundColor: i === index ? '#000' : '#ccc',
-                margin: '0 4px',
+                margin: '0 clamp(3px, 1vw, 4px)',
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease'
               }}

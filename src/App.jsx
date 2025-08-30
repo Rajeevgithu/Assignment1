@@ -6,6 +6,7 @@ import Features from './components/Features.jsx'
 import Categories from './components/Categories.jsx'
 import Promos from './components/Promos.jsx'
 import Products from './components/Products.jsx'
+import Footer from './components/Footer.jsx'
 import { Login, Cart } from './components/AuthCart.jsx'
 
 function App() {
@@ -61,53 +62,8 @@ function App() {
 
       {route === '#cart' && (<Cart />)}
 
-      <footer id="footer" className="pm-footer pm-section">
-        <div className="pm-container pm-footer-grid">
-          <div className="pm-foot-brand">
-            <div className="pm-logo">PressMart.</div>
-            <p>Your one-stop shop for fashion and accessories.</p>
-            <div className="pm-socials">
-              <a aria-label="Twitter" href="#">𝕏</a>
-              <a aria-label="Instagram" href="#">ⓘ</a>
-              <a aria-label="Facebook" href="#">f</a>
-            </div>
-          </div>
-          <div>
-            <div className="pm-foot-title">Shop</div>
-            <ul>
-              <li><a href="#">Men</a></li>
-              <li><a href="#">Women</a></li>
-              <li><a href="#">Watches</a></li>
-              <li><a href="#">Bags</a></li>
-            </ul>
-          </div>
-          <div>
-            <div className="pm-foot-title">Support</div>
-            <ul>
-              <li><a href="#">Help Center</a></li>
-              <li><a href="#">Returns</a></li>
-              <li><a href="#">Shipping</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          <div>
-            <div className="pm-foot-title">Newsletter</div>
-            <form className="pm-newsletter" onSubmit={(e)=>e.preventDefault()}>
-              <input type="email" placeholder="Enter your email" aria-label="Email" />
-              <button className="pm-btn pm-btn-sm" type="submit">Subscribe</button>
-            </form>
-          </div>
-        </div>
-        <div className="pm-container pm-footer-bottom">
-          <div>© 2025 PressMart. All rights reserved.</div>
-          <nav className="pm-footer-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Support</a>
-          </nav>
-        </div>
-      </footer>
-      </div>
+      <Footer />
+    </div>
   )
 }
 

@@ -292,6 +292,101 @@ export default function Categories() {
           </div>
         </a>
       </div>
+
+      {/* Responsive CSS to maintain exact desktop design on small screens */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .pm-categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+            gap: clamp(8px, 1.5vw, 12px) !important;
+            padding: 0 clamp(8px, 1.5vw, 12px) !important;
+          }
+          
+          .pm-cat-large {
+            grid-column: span 2 !important;
+            grid-row: span 2 !important;
+            min-height: clamp(200px, 35vh, 250px) !important;
+          }
+          
+          .pm-cat {
+            min-height: clamp(150px, 25vh, 180px) !important;
+          }
+          
+          .pm-span-2 {
+            grid-column: span 2 !important;
+            min-height: clamp(150px, 25vh, 180px) !important;
+          }
+        }
+        
+        @media (max-width: 600px) {
+          .pm-categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: clamp(6px, 1.2vw, 10px) !important;
+            padding: 0 clamp(6px, 1.2vw, 10px) !important;
+          }
+          
+          .pm-cat-large {
+            grid-column: span 2 !important;
+            grid-row: span 2 !important;
+            min-height: clamp(180px, 30vh, 220px) !important;
+          }
+          
+          .pm-cat {
+            min-height: clamp(130px, 22vh, 160px) !important;
+          }
+          
+          .pm-span-2 {
+            grid-column: span 2 !important;
+            min-height: clamp(130px, 22vh, 160px) !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .pm-categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+            gap: clamp(5px, 1vw, 8px) !important;
+            padding: 0 clamp(5px, 1vw, 8px) !important;
+          }
+          
+          .pm-cat-large {
+            grid-column: span 2 !important;
+            grid-row: span 2 !important;
+            min-height: clamp(160px, 25vh, 200px) !important;
+          }
+          
+          .pm-cat {
+            min-height: clamp(110px, 18vh, 140px) !important;
+          }
+          
+          .pm-span-2 {
+            grid-column: span 2 !important;
+            min-height: clamp(110px, 18vh, 140px) !important;
+          }
+        }
+        
+        @media (max-width: 360px) {
+          .pm-categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+            gap: clamp(4px, 0.8vw, 6px) !important;
+            padding: 0 clamp(4px, 0.8vw, 6px) !important;
+          }
+          
+          .pm-cat-large {
+            grid-column: span 2 !important;
+            grid-row: span 2 !important;
+            min-height: clamp(140px, 20vh, 180px) !important;
+          }
+          
+          .pm-cat {
+            min-height: clamp(90px, 15vh, 120px) !important;
+          }
+          
+          .pm-span-2 {
+            grid-column: span 2 !important;
+            min-height: clamp(90px, 15vh, 120px) !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

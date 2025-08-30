@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { FaCaretDown, FaHeart, FaShoppingCart, FaSearch, FaUser } from "react-icons/fa";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { IoClose } from "react-icons/io5";
 
 function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
   const [dropdownOpen, setDropdownOpen] = useState(null);
@@ -49,60 +51,55 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
       minHeight: '80px',
       display: 'flex',
       alignItems: 'center',
-      '@media (max-width: 768px)': {
-        minHeight: '70px'
-      }
+      backgroundColor: 'white',
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      zIndex: 1000
     }}>
       <div className="pm-container pm-header-inner" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '40px',
-        padding: '0 20px',
-        width: '100%',
-        '@media (max-width: 768px)': {
-          gap: '20px',
-          padding: '0 15px'
-        }
+        gap: 'clamp(20px, 3vw, 40px)',
+        padding: '0 clamp(10px, 2vw, 20px)',
+        width: '100%'
       }}>
         <div className="pm-logo" style={{
-          fontSize: '32px',
+          fontSize: 'clamp(24px, 4vw, 32px)',
           fontWeight: 'bold',
-          '@media (max-width: 768px)': {
-            fontSize: '26px'
-          }
+          color: '#0066CC'
         }}>PressMart.</div>
         
-        <button 
-          className="pm-hamburger" 
-          aria-label="Open menu" 
-          onClick={() => setMobileOpen(v => !v)}
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="mobile-menu-btn"
           style={{
             display: 'none',
-            flexDirection: 'column',
-            gap: '4px',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
+            color: '#333',
             padding: '8px',
+            borderRadius: '4px',
+            transition: 'background-color 0.3s ease',
             '@media (max-width: 768px)': {
-              display: 'flex'
+              display: 'block'
             }
           }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
         >
-          <span style={{ width: '25px', height: '3px', backgroundColor: '#000', borderRadius: '2px' }} />
-          <span style={{ width: '25px', height: '3px', backgroundColor: '#000', borderRadius: '2px' }} />
-          <span style={{ width: '25px', height: '3px', backgroundColor: '#000', borderRadius: '2px' }} />
+          {mobileOpen ? <IoClose size={24} /> : <HiMenuAlt3 size={24} />}
         </button>
 
-        {/* Main Navigation */}
+        {/* Main Navigation - Hidden on Mobile */}
         <nav className="pm-mainnav" aria-label="Primary" style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
           flex: 1,
-          gap: '20px',
-          marginLeft: '40px',
+          gap: 'clamp(12px, 2vw, 20px)',
+          marginLeft: 'clamp(20px, 3vw, 40px)',
           '@media (max-width: 768px)': {
             display: 'none'
           }
@@ -114,15 +111,13 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
               setMobileOpen(false);
               setActiveMenu("home");
             }}
-            className={`px-3 py-2 ${activeMenu === "home" ? "text-blue-600" : "text-black"}`}
             style={{ 
               fontWeight: 'bold',
-              fontSize: '18px',
-              padding: '12px 16px',
-              '@media (max-width: 768px)': {
-                fontSize: '16px',
-                padding: '10px 14px'
-              }
+              fontSize: 'clamp(14px, 2vw, 18px)',
+              padding: 'clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 16px)',
+              color: activeMenu === "home" ? "#0066CC" : "#000",
+              textDecoration: 'none',
+              transition: 'color 0.3s ease'
             }}
           >
             Home
@@ -130,7 +125,7 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
 
           {/* Dropdown Menus */}
           {Object.keys(dropdownMenus).map((menuKey) => (
-            <div key={menuKey} className="pm-dropdown relative inline-block">
+            <div key={menuKey} className="pm-dropdown" style={{ position: 'relative' }}>
               <a 
                 href={`#${menuKey}`} 
                 onClick={(e) => {
@@ -138,39 +133,58 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
                   handleDropdownClick(menuKey);
                   setMobileOpen(false);
                 }}
-                className={`flex items-center gap-1 px-3 py-2 cursor-pointer ${
-                  activeMenu === menuKey ? "text-blue-600" : "text-black"
-                }`}
                 style={{ 
                   fontWeight: 'bold',
-                  fontSize: '18px',
-                  padding: '12px 16px',
-                  '@media (max-width: 768px)': {
-                    fontSize: '16px',
-                    padding: '10px 14px'
-                  }
+                  fontSize: 'clamp(14px, 2vw, 18px)',
+                  padding: 'clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 16px)',
+                  color: activeMenu === menuKey ? "#0066CC" : "#000",
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  transition: 'color 0.3s ease'
                 }}
               >
                 {menuKey.charAt(0).toUpperCase() + menuKey.slice(1)}
                 {menuKey !== 'buy' && (
                   <FaCaretDown
-                    className={`transition-transform duration-200 ${
-                      dropdownOpen === menuKey ? "rotate-180" : ""
-                    }`}
+                    style={{
+                      fontSize: 'clamp(10px, 1.5vw, 12px)',
+                      transition: 'transform 0.3s ease',
+                      transform: dropdownOpen === menuKey ? 'rotate(180deg)' : 'rotate(0deg)'
+                    }}
                   />
                 )}
               </a>
 
               {/* Dropdown Content */}
               {dropdownOpen === menuKey && (
-                <div className="absolute top-full left-0 bg-white border border-gray-200 rounded-md shadow-md z-50 min-w-[200px] py-2">
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '0',
+                  backgroundColor: 'white',
+                  border: '1px solid #e5e5e5',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                  zIndex: 50,
+                  minWidth: 'clamp(180px, 25vw, 200px)',
+                  padding: '8px 0'
+                }}>
                   {dropdownMenus[menuKey].map((item, index) => (
                     <a
                       key={index}
                       href={item.href}
-                      className={`block px-4 py-2 text-sm ${
-                        activeMenu === item.href ? "text-blue-600" : "text-gray-700"
-                      } hover:bg-gray-100`}
+                      style={{
+                        display: 'block',
+                        padding: 'clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px)',
+                        fontSize: 'clamp(12px, 1.8vw, 14px)',
+                        color: activeMenu === item.href ? "#0066CC" : "#666",
+                        textDecoration: 'none',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#f8f9fa'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                       onClick={() => setActiveMenu(item.href)}
                     >
                       {item.name}
@@ -186,25 +200,14 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
         <nav className="pm-icons" aria-label="Header actions" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '16px',
+          gap: 'clamp(12px, 2vw, 16px)',
           '@media (max-width: 768px)': {
-            gap: '12px'
+            display: 'none'
           }
         }}>
           {showSearch ? (
             <div className="pm-searchgroup" style={{
-              position: 'relative',
-              '@media (max-width: 768px)': {
-                position: 'absolute',
-                top: '100%',
-                left: '0',
-                right: '0',
-                background: 'white',
-                padding: '12px',
-                borderTop: '1px solid #e5e5e5',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                zIndex: 1000
-              }
+              position: 'relative'
             }}>
               <input
                 type="text"
@@ -214,145 +217,385 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
                 autoFocus
                 onBlur={() => setShowSearch(false)}
                 style={{
-                  '@media (max-width: 768px)': {
-                    width: '100%',
-                    padding: '12px',
-                    fontSize: '16px'
-                  }
+                  padding: 'clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 12px)',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  fontSize: 'clamp(12px, 1.8vw, 14px)',
+                  width: 'clamp(150px, 25vw, 200px)'
                 }}
               />
-              <FaSearch className="pm-searchicon" />
+              <FaSearch style={{
+                position: 'absolute',
+                right: 'clamp(6px, 1.5vw, 8px)',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#666',
+                fontSize: 'clamp(12px, 1.8vw, 14px)'
+              }} />
             </div>
           ) : (
             <FaSearch 
-              className="text-xl cursor-pointer" 
+              style={{
+                fontSize: 'clamp(20px, 3vw, 24px)',
+                cursor: 'pointer',
+                color: '#333',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#0066CC'}
+              onMouseLeave={(e) => e.target.style.color = '#333'}
               onClick={() => setShowSearch(true)}
               aria-label="Search"
-              style={{
-                fontSize: '24px',
-                '@media (max-width: 768px)': {
-                  fontSize: '20px'
-                }
-              }}
             />
           )}
           
           <FaUser 
-            className="text-xl cursor-pointer" 
+            style={{
+              fontSize: 'clamp(20px, 3vw, 24px)',
+              cursor: 'pointer',
+              color: '#333',
+              transition: 'color 0.3s ease'
+            }}
+            onMouseEnter={(e) => e.target.style.color = '#0066CC'}
+            onMouseLeave={(e) => e.target.style.color = '#333'}
             onClick={() => window.location.hash = '#login'}
             aria-label="Account"
-            style={{
-              fontSize: '24px',
-              '@media (max-width: 768px)': {
-                fontSize: '20px'
-              }
-            }}
           />
           
           {/* Heart Icon with Notification */}
-          <div className="relative">
-            <FaHeart 
-              className="text-xl cursor-pointer" 
-              style={{
-                fontSize: '24px',
-                '@media (max-width: 768px)': {
-                  fontSize: '20px'
-                }
-              }}
-            />
-            <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+          <div style={{ position: 'relative' }}>
+            <span style={{
+              position: 'absolute',
+              top: '-clamp(6px, 1.5vw, 8px)',
+              right: '-clamp(6px, 1.5vw, 8px)',
+              backgroundColor: '#0066CC',
+              color: 'white',
+              fontSize: 'clamp(8px, 1.5vw, 10px)',
+              borderRadius: '50%',
+              width: 'clamp(14px, 2.5vw, 18px)',
+              height: 'clamp(14px, 2.5vw, 18px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              zIndex: 10
+            }}>
               3
             </span>
+            <FaHeart 
+              style={{
+                fontSize: 'clamp(20px, 3vw, 24px)',
+                cursor: 'pointer',
+                color: '#333',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#0066CC'}
+              onMouseLeave={(e) => e.target.style.color = '#333'}
+            />
           </div>
           
           {/* Cart Icon with Notification */}
-          <div className="relative">
-            <FaShoppingCart 
-              className="text-xl cursor-pointer" 
-              onClick={() => window.location.hash = '#cart'}
-              style={{
-                fontSize: '24px',
-                '@media (max-width: 768px)': {
-                  fontSize: '20px'
-                }
-              }}
-            />
-            <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+          <div style={{ position: 'relative' }}>
+            <span style={{
+              position: 'absolute',
+              top: '-clamp(6px, 1.5vw, 8px)',
+              right: '-clamp(6px, 1.5vw, 8px)',
+              backgroundColor: '#0066CC',
+              color: 'white',
+              fontSize: 'clamp(8px, 1.5vw, 10px)',
+              borderRadius: '50%',
+              width: 'clamp(14px, 2.5vw, 18px)',
+              height: 'clamp(14px, 2.5vw, 18px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              zIndex: 10
+            }}>
               2
             </span>
+            <FaShoppingCart 
+              style={{
+                fontSize: 'clamp(20px, 3vw, 24px)',
+                cursor: 'pointer',
+                color: '#333',
+                transition: 'color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#0066CC'}
+              onMouseLeave={(e) => e.target.style.color = '#333'}
+              onClick={() => window.location.hash = '#cart'}
+            />
           </div>
         </nav>
       </div>
       
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       {mobileOpen && (
-        <div className="pm-mobile-menu" style={{
-          position: 'absolute',
-          top: '100%',
-          left: '0',
-          right: '0',
-          backgroundColor: 'white',
-          borderTop: '1px solid #e5e5e5',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          zIndex: 1000,
-          maxHeight: 'calc(100vh - 100px)',
-          overflowY: 'auto',
-          '@media (min-width: 769px)': {
-            display: 'none'
-          }
-        }}>
-          <div style={{ padding: '20px' }}>
-            <a 
-              href="#home"
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 999
+        }} onClick={() => setMobileOpen(false)} />
+      )}
+      
+      {/* Mobile Menu */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: mobileOpen ? 0 : '-100%',
+        width: 'clamp(280px, 80vw, 320px)',
+        height: '100vh',
+        backgroundColor: 'white',
+        boxShadow: '2px 0 10px rgba(0, 0, 0, 0.1)',
+        zIndex: 1000,
+        transition: 'left 0.3s ease',
+        overflowY: 'auto'
+      }}>
+        <div style={{ padding: 'clamp(15px, 3vw, 20px)' }}>
+          {/* Mobile Menu Header */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 'clamp(15px, 3vw, 20px)',
+            paddingBottom: 'clamp(10px, 2vw, 15px)',
+            borderBottom: '1px solid #e5e5e5'
+          }}>
+            <div style={{
+              fontSize: 'clamp(20px, 4vw, 24px)',
+              fontWeight: 'bold',
+              color: '#0066CC'
+            }}>Menu</div>
+            <button
+              onClick={() => setMobileOpen(false)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: 'clamp(20px, 4vw, 24px)',
+                cursor: 'pointer',
+                color: '#666',
+                padding: '4px',
+                borderRadius: '4px',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            >
+              ×
+            </button>
+          </div>
+
+          {/* Mobile Search Bar */}
+          <div style={{
+            marginBottom: 'clamp(15px, 3vw, 20px)',
+            paddingBottom: 'clamp(10px, 2vw, 15px)',
+            borderBottom: '1px solid #e5e5e5'
+          }}>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                placeholder="Search products..."
+                style={{
+                  width: '100%',
+                  padding: 'clamp(10px, 2vw, 12px) clamp(35px, 8vw, 40px) clamp(10px, 2vw, 12px) clamp(10px, 2vw, 12px)',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  fontSize: 'clamp(12px, 2vw, 14px)',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#0066CC'}
+                onBlur={(e) => e.target.style.borderColor = '#ddd'}
+              />
+              <FaSearch style={{
+                position: 'absolute',
+                right: 'clamp(10px, 2vw, 12px)',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#666',
+                fontSize: 'clamp(14px, 2.5vw, 16px)'
+              }} />
+            </div>
+          </div>
+
+          {/* Mobile Action Icons */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            marginBottom: 'clamp(15px, 3vw, 20px)',
+            paddingBottom: 'clamp(10px, 2vw, 15px)',
+            borderBottom: '1px solid #e5e5e5'
+          }}>
+            {/* User Icon */}
+            <button
               onClick={() => {
+                window.location.hash = '#login';
                 setMobileOpen(false);
-                setActiveMenu("home");
               }}
               style={{
-                display: 'block',
-                padding: '12px 0',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                color: activeMenu === "home" ? "#0066CC" : "#000",
-                borderBottom: '1px solid #f0f0f0',
-                textDecoration: 'none',
-                '@media (max-width: 768px)': {
-                  fontSize: '14px',
-                  padding: '10px 0'
-                }
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 'clamp(3px, 1vw, 4px)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 'clamp(6px, 1.5vw, 8px)',
+                borderRadius: '8px',
+                transition: 'background-color 0.3s ease'
               }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
             >
-              Home
-            </a>
-            {Object.keys(dropdownMenus).map((menuKey) => (
-              <div key={menuKey} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                <div style={{
-                  padding: '12px 0',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  color: activeMenu === menuKey ? "#0066CC" : "#000",
-                  '@media (max-width: 768px)': {
-                    fontSize: '14px',
-                    padding: '10px 0'
-                  }
-                }}>
-                  {menuKey.charAt(0).toUpperCase() + menuKey.slice(1)}
-                </div>
-                <div style={{ paddingLeft: '20px' }}>
+              <FaUser style={{ fontSize: 'clamp(18px, 3vw, 20px)', color: '#333' }} />
+              <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#666' }}>Account</span>
+            </button>
+
+            {/* Heart Icon */}
+            <button
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 'clamp(3px, 1vw, 4px)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 'clamp(6px, 1.5vw, 8px)',
+                borderRadius: '8px',
+                position: 'relative',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            >
+              <span style={{
+                position: 'absolute',
+                top: 'clamp(2px, 1vw, 4px)',
+                right: 'clamp(2px, 1vw, 4px)',
+                backgroundColor: '#0066CC',
+                color: 'white',
+                fontSize: 'clamp(8px, 1.5vw, 10px)',
+                borderRadius: '50%',
+                width: 'clamp(12px, 2.5vw, 16px)',
+                height: 'clamp(12px, 2.5vw, 16px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                zIndex: 10
+              }}>
+                3
+              </span>
+              <FaHeart style={{ fontSize: 'clamp(18px, 3vw, 20px)', color: '#333' }} />
+              <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#666' }}>Wishlist</span>
+            </button>
+
+            {/* Cart Icon */}
+            <button
+              onClick={() => {
+                window.location.hash = '#cart';
+                setMobileOpen(false);
+              }}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 'clamp(3px, 1vw, 4px)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 'clamp(6px, 1.5vw, 8px)',
+                borderRadius: '8px',
+                position: 'relative',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            >
+              <span style={{
+                position: 'absolute',
+                top: 'clamp(2px, 1vw, 4px)',
+                right: 'clamp(2px, 1vw, 4px)',
+                backgroundColor: '#0066CC',
+                color: 'white',
+                fontSize: 'clamp(8px, 1.5vw, 10px)',
+                borderRadius: '50%',
+                width: 'clamp(12px, 2.5vw, 16px)',
+                height: 'clamp(12px, 2.5vw, 16px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                zIndex: 10
+              }}>
+                2
+              </span>
+              <FaShoppingCart style={{ fontSize: 'clamp(18px, 3vw, 20px)', color: '#333' }} />
+              <span style={{ fontSize: 'clamp(10px, 2vw, 12px)', color: '#666' }}>Cart</span>
+            </button>
+          </div>
+
+          {/* Mobile Navigation Links */}
+          <a 
+            href="#home"
+            onClick={() => {
+              setMobileOpen(false);
+              setActiveMenu("home");
+            }}
+            style={{
+              display: 'block',
+              padding: 'clamp(12px, 2.5vw, 15px) 0',
+              fontSize: 'clamp(14px, 2.5vw, 16px)',
+              fontWeight: 'bold',
+              color: activeMenu === "home" ? "#0066CC" : "#000",
+              textDecoration: 'none',
+              borderBottom: '1px solid #f0f0f0',
+              transition: 'color 0.3s ease'
+            }}
+          >
+            Home
+          </a>
+          
+          {Object.keys(dropdownMenus).map((menuKey) => (
+            <div key={menuKey} style={{ borderBottom: '1px solid #f0f0f0' }}>
+              <div style={{
+                padding: 'clamp(12px, 2.5vw, 15px) 0',
+                fontSize: 'clamp(14px, 2.5vw, 16px)',
+                fontWeight: 'bold',
+                color: activeMenu === menuKey ? "#0066CC" : "#000",
+                cursor: 'pointer',
+                transition: 'color 0.3s ease'
+              }} onClick={() => handleDropdownClick(menuKey)}>
+                {menuKey.charAt(0).toUpperCase() + menuKey.slice(1)}
+                {menuKey !== 'buy' && (
+                  <FaCaretDown
+                    style={{
+                      float: 'right',
+                      marginTop: 'clamp(2px, 1vw, 4px)',
+                      fontSize: 'clamp(10px, 1.5vw, 12px)',
+                      transition: 'transform 0.3s ease',
+                      transform: dropdownOpen === menuKey ? 'rotate(180deg)' : 'rotate(0deg)'
+                    }}
+                  />
+                )}
+              </div>
+              {dropdownOpen === menuKey && (
+                <div style={{ paddingLeft: 'clamp(15px, 3vw, 20px)', backgroundColor: '#f8f9fa' }}>
                   {dropdownMenus[menuKey].map((item, index) => (
                     <a
                       key={index}
                       href={item.href}
                       style={{
                         display: 'block',
-                        padding: '8px 0',
-                        fontSize: '14px',
+                        padding: 'clamp(10px, 2vw, 12px) 0',
+                        fontSize: 'clamp(12px, 2vw, 14px)',
                         color: activeMenu === item.href ? "#0066CC" : "#666",
                         textDecoration: 'none',
-                        '@media (max-width: 768px)': {
-                          fontSize: '12px',
-                          padding: '6px 0'
-                        }
+                        transition: 'color 0.3s ease'
                       }}
                       onClick={() => {
                         setActiveMenu(item.href);
@@ -363,11 +606,65 @@ function Header({ mobileOpen, setMobileOpen, showSearch, setShowSearch }) {
                     </a>
                   ))}
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
+      </div>
+
+      {/* CSS for responsive design */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .pm-header-inner {
+            gap: clamp(15px, 2.5vw, 20px) !important;
+            padding: 0 clamp(8px, 1.5vw, 15px) !important;
+          }
+          
+          .pm-logo {
+            font-size: clamp(20px, 3.5vw, 24px) !important;
+          }
+          
+          .mobile-menu-btn {
+            display: flex !important;
+          }
+          
+          .pm-mainnav {
+            display: none !important;
+          }
+          
+          .pm-icons {
+            display: none !important;
+          }
+        }
+        
+        @media (min-width: 769px) {
+          .mobile-menu-btn {
+            display: none !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .pm-header-inner {
+            gap: clamp(12px, 2vw, 15px) !important;
+            padding: 0 clamp(6px, 1vw, 12px) !important;
+          }
+          
+          .pm-logo {
+            font-size: clamp(18px, 3vw, 22px) !important;
+          }
+        }
+        
+        @media (max-width: 320px) {
+          .pm-header-inner {
+            gap: clamp(10px, 1.5vw, 12px) !important;
+            padding: 0 clamp(4px, 0.8vw, 8px) !important;
+          }
+          
+          .pm-logo {
+            font-size: clamp(16px, 2.5vw, 20px) !important;
+          }
+        }
+      `}</style>
     </header>
   )
 }
